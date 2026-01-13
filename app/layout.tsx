@@ -18,6 +18,28 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  openGraph: {
+    title: "S.PCSTYLE // LINK_SHORTENER",
+    description: "Cybernetic URL Compression Protocol - pcstyle",
+    url: "https://s.pcstyle.dev",
+    siteName: "S.PCSTYLE",
+    images: [
+      {
+        url: "https://og.pcstyle.dev/api/og?title=LINK%20SHORTENER&subtitle=Cybernetic%20URL%20Compression&icon=link&theme=magenta",
+        width: 1200,
+        height: 630,
+        alt: "Link Shortener Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "S.PCSTYLE // LINK_SHORTENER",
+    description: "Cybernetic URL Compression Protocol - pcstyle",
+    images: ["https://og.pcstyle.dev/api/og?title=LINK%20SHORTENER&subtitle=Cybernetic%20URL%20Compression&icon=link&theme=magenta"],
+  },
 };
 
 export default function RootLayout({
