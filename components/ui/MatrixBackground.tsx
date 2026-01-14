@@ -1,20 +1,26 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { usePerformanceMode } from "../../hooks/usePerformanceMode";
 
 export const MatrixBackground = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const mouseRef = useRef({ x: 0, y: 0 });
+    const isLowPerformance = usePerformanceMode();
 
     useEffect(() => {
+        if (isLowPerformance) return;
+
         const handleMouseMove = (e: MouseEvent) => {
             mouseRef.current = { x: e.clientX, y: e.clientY };
         };
         window.addEventListener("mousemove", handleMouseMove);
         return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
+    }, [isLowPerformance]);
 
     useEffect(() => {
+        if (isLowPerformance) return;
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -79,11 +85,11 @@ export const MatrixBackground = () => {
             clearInterval(interval);
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [isLowPerformance]);
 
     return (
         <div className="fixed inset-0 pointer-events-none z-0 opacity-20">
-            <canvas ref={canvasRef} className="w-full h-full" />
+            {!isLowPerformance && <canvas ref={canvasRef} className="w-full h-full" />}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0),rgba(0,0,0,1))]" />
         </div>
     );
