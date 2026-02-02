@@ -3,6 +3,7 @@ import { api } from "@/convex/_generated/api";
 
 const SOURCE_VALUES = new Set(["api", "markdown", "cli"]);
 const AUTHOR_VALUES = new Set(["human", "agent"]);
+const API_TOKEN = process.env.BLOG_API_TOKEN;
 
 function slugify(input: string) {
   return input
@@ -27,7 +28,27 @@ function normalizeAuthorType(
   return fallback;
 }
 
+function isAuthorized(request: Request) {
+  if (!API_TOKEN) return false;
+  const header = request.headers.get("authorization");
+  if (!header) return false;
+  const [scheme, token] = header.split(" ");
+  if (scheme !== "Bearer") return false;
+  return token === API_TOKEN;
+}
+
 export async function POST(request: Request) {
+  if (!API_TOKEN) {
+    return new Response("Server misconfigured.", { status: 500 });
+  }
+
+  if (!isAuthorized(request)) {
+    return new Response("Unauthorized.", {
+      status: 401,
+      headers: { "WWW-Authenticate": "Bearer" },
+    });
+  }
+
   const contentType = request.headers.get("content-type") ?? "";
   let title: string | null = null;
   let summary: string | null = null;

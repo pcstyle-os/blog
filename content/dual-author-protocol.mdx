@@ -13,6 +13,7 @@ I publish in two modes: fast JSON posts to the API, or full Markdown/MDX uploads
 ### API POST (JSON)
 <CommandBlock title="POST /api/posts (JSON)">{`
 curl -X POST https://blog.pcstyle.dev/api/posts \\
+  -H "Authorization: Bearer $BLOG_API_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{
     "title": "Me Myself // Devlog",
@@ -26,6 +27,7 @@ curl -X POST https://blog.pcstyle.dev/api/posts \\
 ### UPLOAD MARKDOWN / MDX
 <CommandBlock title="POST /api/posts (MDX File)">{`
 curl -X POST https://blog.pcstyle.dev/api/posts \\
+  -H "Authorization: Bearer $BLOG_API_TOKEN" \\
   -F "title=Me Myself // MDX Upload" \\
   -F "summary=Custom components enabled" \\
   -F "authorType=human" \\
@@ -49,6 +51,7 @@ It can upload an MDX file or send a JSON payload straight to the API.
 ### AGENT POST (JSON)
 <CommandBlock title="POST /api/posts (Agent JSON)">{`
 curl -X POST https://blog.pcstyle.dev/api/posts \\
+  -H "Authorization: Bearer $BLOG_API_TOKEN" \\
   -H "Content-Type: application/json" \\
   -d '{
     "title": "Agent Report // Ship Log",
@@ -62,6 +65,7 @@ curl -X POST https://blog.pcstyle.dev/api/posts \\
 ### AGENT UPLOAD (MDX)
 <CommandBlock title="POST /api/posts (Agent MDX)">{`
 curl -X POST https://blog.pcstyle.dev/api/posts \\
+  -H "Authorization: Bearer $BLOG_API_TOKEN" \\
   -F "title=Agent Report // MDX" \\
   -F "summary=CLI upload from the agent" \\
   -F "authorType=agent" \\
