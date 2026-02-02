@@ -1,48 +1,45 @@
-# Project Identity: short (s.pcstyle.dev)
+# Project Identity: blog (blog.pcstyle.dev)
 
-This project follows the **pcstyle** high-performance stack and aesthetic.
+Developer blog for pcstyle.dev with a dual-author pipeline (human + AI agent).
 
 ## 🛠 Technical Stack
 - **Framework**: Next.js 16 (App Router)
 - **Database**: Convex (Real-time reactive database)
 - **Styling**: Tailwind CSS v4 (CSS-first)
 - **Runtime**: Bun
-- **Animation**: Framer Motion
+- **MDX**: next-mdx-remote (RSC)
 - **Icons**: Lucide React
 
 ## 🎨 Design System: "Cybernetic Minimalism"
 - **Colors**: Absolute Black (#000000) & Neon Magenta (#ff00ff)
 - **Effects**: Glassmorphism, CRT Overlays, Matrix backgrounds
 - **Typography**: JetBrains Mono with aggressive tracking
-- **Identity**: Protocol: SHORT-777-ALPHA
+- **Identity**: Protocol: DEVLOG-777-ALPHA
 
 ## 📁 File Structure
 ```
-short/
+blog/
 ├── app/
-│   ├── [shortCode]/
-│   │   ├── page.tsx         # Redirect handler
-│   │   └── not-found.tsx    # 404 for invalid links
-│   ├── globals.css          # Cyberpunk styles
-│   ├── layout.tsx           # Root layout with Convex
-│   └── page.tsx             # Main shortener page
+│   ├── api/posts/route.ts     # API for JSON + MDX uploads
+│   ├── globals.css            # Cyberpunk styles
+│   ├── layout.tsx             # Root layout with Convex
+│   └── page.tsx               # Devlog post view
 ├── components/
-│   ├── ui/
-│   │   ├── CRTOverlay.tsx
-│   │   ├── MatrixBackground.tsx
-│   │   └── NeuralCursor.tsx
-│   ├── ConvexClientProvider.tsx
-│   └── LinkShortener.tsx    # Main component
+│   ├── mdx/                   # Custom MDX components
+│   ├── ui/                    # CRT overlay, matrix background, cursor
+│   └── ConvexClientProvider.tsx
+├── content/dual-author-protocol.mdx
 └── convex/
-    ├── schema.ts            # Database schema
-    └── links.ts             # Mutations & queries
+    ├── convex.config.ts       # Convex app config
+    ├── schema.ts              # Posts schema
+    └── posts.ts               # Queries + mutations
 ```
 
 ## 🔧 Configuration Required
 
 1. Initialize Convex:
 ```bash
-bunx convex dev
+CONVEX_AGENT_MODE=anonymous bunx convex dev --once
 ```
 
 2. Add environment variables to `.env.local`:
@@ -50,20 +47,15 @@ bunx convex dev
 NEXT_PUBLIC_CONVEX_URL=your_convex_deployment_url
 ```
 
-## 🌐 Domain Setup
-Configure `s.pcstyle.dev` to point to your Vercel deployment.
-
 ## 🚀 Commands
 ```bash
-bun install          # Install dependencies
-bunx convex dev      # Start Convex in dev mode
-bun dev              # Start Next.js development server
-bun build            # Build for production
+bun install
+bun dev
+bun run lint
 ```
 
 ## 📊 Features
-- URL shortening with auto-generated codes
-- Custom alias support
-- Real-time click tracking
-- Recent links display
-- Copy-to-clipboard functionality
+- Dual-author devlog post layout
+- MDX rendering with custom components
+- JSON + Markdown file upload API
+- Convex-backed post storage

@@ -2,22 +2,16 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-    links: defineTable({
-        // The original long URL
-        url: v.string(),
-        // Short code (e.g., "abc123")
-        shortCode: v.string(),
-        // Optional custom alias
-        customAlias: v.optional(v.string()),
-        // Click count
-        clicks: v.number(),
-        // Creation timestamp
-        createdAt: v.number(),
-        // Optional expiration timestamp
-        expiresAt: v.optional(v.number()),
-        // Creator identifier (could be IP or user ID)
-        creatorId: v.optional(v.string()),
-    })
-        .index("by_shortCode", ["shortCode"])
-        .index("by_createdAt", ["createdAt"]),
+  posts: defineTable({
+    slug: v.string(),
+    title: v.string(),
+    summary: v.optional(v.string()),
+    content: v.string(),
+    authorType: v.union(v.literal("human"), v.literal("agent")),
+    source: v.union(v.literal("api"), v.literal("markdown"), v.literal("cli")),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_slug", ["slug"])
+    .index("by_createdAt", ["createdAt"]),
 });

@@ -13,22 +13,22 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "S.PCSTYLE // LINK_SHORTENER",
-  description: "Cybernetic URL Compression Protocol - pcstyle",
+  title: "PCSTYLE.DEV // DEVLOG",
+  description: "Developer log for pcstyle.dev — human + AI collaboration notes.",
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "S.PCSTYLE // LINK_SHORTENER",
-    description: "Cybernetic URL Compression Protocol - pcstyle",
-    url: "https://s.pcstyle.dev",
-    siteName: "S.PCSTYLE",
+    title: "PCSTYLE.DEV // DEVLOG",
+    description: "Developer log for pcstyle.dev — human + AI collaboration notes.",
+    url: "https://blog.pcstyle.dev",
+    siteName: "PCSTYLE.DEV",
     images: [
       {
-        url: "https://og.pcstyle.dev/api/og?title=LINK%20SHORTENER&subtitle=Cybernetic%20URL%20Compression&icon=link&theme=magenta",
+        url: "https://og.pcstyle.dev/api/og?title=DEVLOG&subtitle=Dual%20Author%20Protocol&icon=terminal&theme=magenta",
         width: 1200,
         height: 630,
-        alt: "Link Shortener Preview",
+        alt: "PCSTYLE Devlog Preview",
       },
     ],
     locale: "en_US",
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "S.PCSTYLE // LINK_SHORTENER",
-    description: "Cybernetic URL Compression Protocol - pcstyle",
-    images: ["https://og.pcstyle.dev/api/og?title=LINK%20SHORTENER&subtitle=Cybernetic%20URL%20Compression&icon=link&theme=magenta"],
+    title: "PCSTYLE.DEV // DEVLOG",
+    description: "Developer log for pcstyle.dev — human + AI collaboration notes.",
+    images: ["https://og.pcstyle.dev/api/og?title=DEVLOG&subtitle=Dual%20Author%20Protocol&icon=terminal&theme=magenta"],
   },
 };
 
