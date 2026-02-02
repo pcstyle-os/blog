@@ -1,25 +1,25 @@
 import path from "node:path";
 import { readFile } from "node:fs/promises";
-import { Terminal, Cpu, FileText } from "lucide-react";
+import Link from "next/link";
+import { Cpu, FileText } from "lucide-react";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { CustomMDX } from "@/components/mdx/CustomMDX";
 import { StatusChip } from "@/components/mdx/StatusChip";
+import { BlogHeader } from "@/components/BlogHeader";
+import { BlogFooter } from "@/components/BlogFooter";
+import { fallbackPosts } from "@/content/posts";
 
-const FALLBACK_SLUG = "dual-author-protocol";
-const FALLBACK_TITLE = "DEVELOPER LOG // DUAL-AUTHOR POSTING PIPELINE";
-const FALLBACK_SUMMARY =
-  "A split-voice devlog for pcstyle.dev: human intent + AI execution, fused into a single publishing protocol.";
-const FALLBACK_TIMESTAMP = Date.UTC(2026, 1, 2, 9, 0, 0);
+const DEFAULT_POST = fallbackPosts[0];
 
 export const revalidate = 0;
 
-async function loadFallbackContent() {
-  const filePath = path.join(process.cwd(), "content", "dual-author-protocol.mdx");
+async function loadFallbackContent(slug: string, file: string) {
+  const filePath = path.join(process.cwd(), "content", file);
   try {
     return await readFile(filePath, "utf8");
   } catch {
-    return "## ME MYSELF\nFallback content missing.";
+    return `## ME MYSELF\nMissing fallback content for ${slug}.`;
   }
 }
 
@@ -32,13 +32,14 @@ function formatDate(timestamp: number) {
 }
 
 export default async function Home() {
-  const post = await fetchQuery(api.posts.getPostBySlug, { slug: FALLBACK_SLUG });
-  const content = post?.content ?? (await loadFallbackContent());
-  const title = post?.title ?? FALLBACK_TITLE;
-  const summary = post?.summary ?? FALLBACK_SUMMARY;
-  const createdAt = post?.createdAt ?? FALLBACK_TIMESTAMP;
+  const post = await fetchQuery(api.posts.getPostBySlug, { slug: DEFAULT_POST.slug });
+  const content =
+    post?.content ?? (await loadFallbackContent(DEFAULT_POST.slug, DEFAULT_POST.file));
+  const title = post?.title ?? DEFAULT_POST.title;
+  const summary = post?.summary ?? DEFAULT_POST.summary;
+  const createdAt = post?.createdAt ?? DEFAULT_POST.createdAt;
   const updatedAt = post?.updatedAt ?? createdAt;
-  const displaySlug = post?.slug ?? FALLBACK_SLUG;
+  const displaySlug = post?.slug ?? DEFAULT_POST.slug;
 
   const authorLabel = post
     ? post.authorType === "human"
@@ -49,31 +50,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <header className="border-b border-[#ff00ff]/20 bg-black/95 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4 group">
-            <div className="w-10 h-10 bg-[#ff00ff] flex items-center justify-center text-black font-black text-xl shadow-[0_0_15px_#ff00ff66] transition-all group-hover:shadow-[0_0_25px_#ff00ff]">
-              <Terminal className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight uppercase group-hover:text-[#ff00ff] transition-colors">
-                blog<span className="text-[#ff00ff]/40">.pcstyle.dev</span>
-              </h1>
-              <p className="text-xs text-gray-600 uppercase tracking-[0.3em] font-mono">
-                DEVELOPER_LOG_PROTOCOL
-              </p>
-            </div>
-          </div>
-
-          <div className="hidden md:flex items-center gap-6 text-xs text-gray-500 font-mono uppercase tracking-wider">
-            <span className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              SYSTEM_ONLINE
-            </span>
-            <span>v0.1.0</span>
-          </div>
-        </div>
-      </header>
+      <BlogHeader />
 
       <section className="py-16 md:py-24 px-6">
         <div className="max-w-4xl mx-auto space-y-6">
@@ -110,6 +87,12 @@ export default async function Home() {
               <Cpu className="w-4 h-4 text-[#ff00ff]" />
               CONVEX_BACKEND
             </span>
+            <Link
+              href="/posts"
+              className="border border-[#ff00ff]/30 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-[#ff00ff] hover:bg-[#ff00ff]/10 transition"
+            >
+              VIEW_ALL_POSTS
+            </Link>
           </div>
         </div>
       </section>
@@ -120,28 +103,7 @@ export default async function Home() {
         </article>
       </section>
 
-      <footer className="py-12 px-6 border-t border-[#ff00ff]/10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-col items-center md:items-start gap-2">
-            <p className="text-[10px] text-[#ff00ff] font-black uppercase tracking-[0.5em] opacity-30">
-              © 2026 pcstyle.dev
-            </p>
-            <span className="text-[10px] text-gray-800 uppercase tracking-widest font-mono">
-              PROTOCOL_RESERVED: DEVLOG-777-ALPHA
-            </span>
-          </div>
-          <div className="flex gap-10 text-gray-700">
-            {["PRIVACY", "NETWORK", "API"].map((link) => (
-              <span
-                key={link}
-                className="text-[10px] uppercase font-black hover:text-[#ff00ff] transition-all tracking-[0.3em]"
-              >
-                {link}
-              </span>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <BlogFooter />
     </main>
   );
 }
